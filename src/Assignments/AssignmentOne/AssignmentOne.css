@@ -1,54 +1,90 @@
+body {
+  background: #f8d4e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .counter-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 1rem;
+  margin-top: 3rem;
+  background: #f8d4e0;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 10px 10px 30px #e6b8c6, -10px -10px 30px #ffeaf4;
 }
 
 .counter-title {
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 2.5rem;
+  color: #d63384;
   margin-bottom: 1rem;
 }
 
 .counter-value {
-  font-size: 1.5rem;
-}
-
-.increment-button,
-.decrement-button {
-  margin-top: 1rem;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.increment-button {
-  background-color: #007bff;
-}
-
-.decrement-button {
-  background-color: red;
-}
-
-.increment-button:hover {
-  background-color: #0056b3;
+  font-size: 1.8rem;
+  color: #444;
 }
 
 .button-container {
   display: flex;
   gap: 1rem;
+  margin-top: 1rem;
+}
+
+.increment-button,
+.decrement-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: #f8d4e0;
+  box-shadow: 5px 5px 15px #e6b8c6, -5px -5px 15px #ffeaf4;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.increment-button {
+  color: #2ecc71;
+}
+
+.increment-button:hover {
+  background: #f8d4e0;
+  box-shadow: inset 5px 5px 15px #e6b8c6, inset -5px -5px 15px #ffeaf4;
+  color: #27ae60;
+}
+
+.decrement-button {
+  color: #e74c3c;
+}
+
+.increment-button:active,
+.decrement-button:active {
+  transform: scale(0.98);
+}
+
+.decrement-button:hover {
+  background: #f8d4e0;
+  box-shadow: inset 5px 5px 15px #e6b8c6, inset -5px -5px 15px #ffeaf4;
+  color: #c0392b;
+}
+
+/* this is for disabled Decrement */
+.decrement-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .assignment-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 800px;
-  margin-top: 1rem;
-  line-height: 24px;
+  margin-top: 2rem;
+  max-width: 600px;
+  text-align: center;
+  color: #333;
+  line-height: 1.6;
 }
+
+.bold-text {
+  font-weight: bold;
+  color: #d63384;
+}
+

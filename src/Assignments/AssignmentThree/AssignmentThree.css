@@ -1,19 +1,30 @@
+body {
+  background: #f8d4e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-inline: 1.5rem;
+  padding-block: 2rem;
 }
 
 .loading {
   font-size: 18px;
   color: #777;
+  margin-bottom: 1rem;
 }
 
 .table-container {
   width: 100%;
   overflow-x: auto;
+  padding: 1rem;
+  background: #f8d4e0;
+  border-radius: 20px;
+  box-shadow: 10px 10px 30px #e6b8c6, -10px -10px 30px #ffeaf4;
 }
 
 .user-table {
@@ -21,30 +32,42 @@
   border-collapse: collapse;
   margin-top: 10px;
   min-width: 600px;
+  background: #f8d4e0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 5px 5px 15px #e6b8c6, inset -5px -5px 15px #ffeaf4;
 }
 
 .user-table th,
 .user-table td {
-  border: 1px solid #ddd;
   padding: 12px;
   text-align: center;
+  color: #444;
+  font-size: 15px;
 }
 
 .user-table th {
-  background-color: #007bff;
-  color: white;
+  background: #f8d4e0;
+  color: #b03060;
   font-weight: bold;
+  box-shadow: inset 2px 2px 6px #e6b8c6, inset -2px -2px 6px #ffeaf4;
 }
 
-.user-table tr:nth-child(even) {
-  background-color: #f2f2f2;
+.user-table td {
+  background: #f8d4e0;
+  box-shadow: inset 2px 2px 6px #e6b8c6, inset -2px -2px 6px #ffeaf4;
 }
 
-.user-table tr:hover {
-  background-color: #e0e0e0;
+.user-table tr:nth-child(even) td {
+  background: #f9e0ea;
+}
+
+.user-table tr:hover td {
+  background: #f5cfe2;
   transition: background-color 0.3s ease-in-out;
 }
 
+/* to make the webpage responsive to different sizes of devices :DD */
 @media (max-width: 768px) {
   .container {
     max-width: 95%;

@@ -19,6 +19,7 @@
 
 .title-container p {
   max-width: 800px;
+  color: #444;
 }
 
 .tabs {
@@ -29,50 +30,70 @@
   width: 100%;
   overflow-x: auto;
   text-wrap: nowrap;
+  padding: 1rem;
 }
 
+/* neumorphic pink tab buttons */
 .tabs button {
   position: relative;
   margin: 0 10px;
-  padding: 10px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #f8d4e0;
+  color: #d63384;
   font-size: 16px;
-  color: #333;
-  transition: color 0.3s ease;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 6px 6px 12px #e1aaba,
+              -6px -6px 12px #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.tabs button.active,
 .tabs button:hover {
-  font-weight: 600;
-  color: blue;
+  color: white;
+  background: #d63384;
+  box-shadow: inset 6px 6px 10px rgba(0, 0, 0, 0.05),
+              inset -6px -6px 10px rgba(255, 255, 255, 0.6);
 }
 
+/* active tab state */
+.tabs button.active {
+  background: #d63384;
+  color: white;
+  font-weight: 600;
+  box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.05),
+              inset -4px -4px 10px rgba(255, 255, 255, 0.6);
+}
+
+/* underline effect on active (optional) */
 .tabs button::before {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 3px;
   width: 0;
-  background-color: blue;
+  background-color: #d63384;
   transition: width 0.3s ease;
+  border-radius: 2px;
 }
 
 .tabs button:hover::before {
-  width: 100%;
-  background-color: blue;
+  width: 60%;
 }
 
 .tabs button.active::before {
-  width: 100%;
+  width: 80%;
 }
 
+/* tab content section */
 .tab-content {
   padding: 1rem;
 }
 
+/* mobile friendly */
 @media only screen and (max-width: 600px) {
   h1 {
     text-align: center;
@@ -80,5 +101,15 @@
 
   .title-container {
     padding: 1rem;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tabs button {
+    font-size: 14px;
+    padding: 8px 14px;
   }
 }

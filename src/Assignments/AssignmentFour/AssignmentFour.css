@@ -4,23 +4,28 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  background: #f8d4e0; /* soft pink background */
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 10px 10px 30px #e1aaba,
+              -10px -10px 30px #ffffff;
 }
 
 .address-wrapper {
+  width: 100%;
   max-width: 800px;
+  padding: 2rem;
 }
 
 h2 {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
+  color: #d63384;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   width: 100%;
 }
 
@@ -28,54 +33,68 @@ label {
   font-size: 14px;
   font-weight: bold;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  color: #444;
 }
 
 select,
 input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  transition: border 0.3s ease;
+  border: none;
+  border-radius: 12px;
+  background: #f8d4e0;
+  color: #444;
+  box-shadow: inset 4px 4px 8px #e1aaba,
+              inset -4px -4px 8px #ffffff;
+  transition: box-shadow 0.3s ease;
 }
 
-select:hover,
-input:hover {
-  border: 1px solid #007bff;
+select:focus,
+input:focus {
+  outline: none;
+  box-shadow: inset 2px 2px 6px #e1aaba,
+              inset -2px -2px 6px #ffffff;
 }
 
 button {
   width: 100%;
-  background: #007bff;
-  color: white;
   padding: 12px;
   font-size: 16px;
+  font-weight: bold;
+  background: #f8d4e0;
+  color: #d63384;
   border: none;
-  border-radius: 5px;
+  border-radius: 12px;
+  box-shadow: 6px 6px 16px #e1aaba,
+              -6px -6px 16px #ffffff;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: all 0.2s ease-in-out;
 }
 
 button:hover {
-  background: #0056b3;
+  color: white;
+  background: #d63384;
+  box-shadow: inset 6px 6px 10px rgba(0, 0, 0, 0.05),
+              inset -6px -6px 10px rgba(255, 255, 255, 0.6);
 }
 
 .address-display {
   margin-bottom: 20px;
   padding: 15px;
-  background: #d4edda;
-  color: #155724;
-  border-radius: 5px;
+  background: #ffe6ee;
+  color: #b03060;
+  border-radius: 12px;
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
+  box-shadow: inset 4px 4px 8px #e8b7c7,
+              inset -4px -4px 8px #ffffff;
 }
 
 @media (max-width: 600px) {
-  .container {
-    max-width: 90%;
-    padding: 15px;
+  .address-wrapper {
+    padding: 1.5rem;
   }
 
   h2 {
@@ -85,7 +104,7 @@ button:hover {
   select,
   input {
     font-size: 12px;
-    padding: 8px;
+    padding: 10px;
   }
 
   button {

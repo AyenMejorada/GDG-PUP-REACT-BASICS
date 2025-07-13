@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import "./AssignmentFour.css"; // Import CSS
+import "./AssignmentFour.css"; // import css file for styles
 
 function AssignmentFour() {
+  // storing options for dropdowns
   const [regions, setRegions] = useState([]);
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
   const [barangays, setBarangays] = useState([]);
+
+  // storing the selected items
   const [selectedRegion, setSelectedRegion] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -14,24 +17,18 @@ function AssignmentFour() {
   const [otherAddress, setOtherAddress] = useState("");
   const [displayAddress, setDisplayAddress] = useState("");
 
+  // this one runs when the component loads
+  // it gets all the regions from the api
   useEffect(() => {
-    const fetchRegions = async () => {
-      try {
-        const response = await fetch("https://psgc.cloud/api/regions");
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setRegions(data);
-        } else {
-          console.error("Unexpected response format:", data);
-        }
-      } catch (error) {
-        console.error("Error fetching regions:", error);
-      }
-    };
-
-    fetchRegions();
+    fetch("https://psgc.cloud/api/regions")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setRegions(data);
+      })
+      .catch((err) => console.error("error getting regions:", err));
   }, []);
 
+  // if region is changed, fetch its provinces
   const handleRegionChange = (e) => {
     const regionCode = e.target.value;
     setSelectedRegion(regionCode);
@@ -44,42 +41,45 @@ function AssignmentFour() {
 
     if (regionCode) {
       fetch(`https://psgc.cloud/api/regions/${regionCode}/provinces`)
-        .then((response) => response.json())
-        .then((data) => setProvinces(data || []))
-        .catch((error) => console.error("Error fetching provinces:", error));
+        .then((res) => res.json())
+        .then((data) => setProvinces(data))
+        .catch((err) => console.error("error getting provinces:", err));
     }
   };
 
+  // if province is changed, fetch its cities or municipalities
   const handleProvinceChange = (e) => {
     const provinceCode = e.target.value;
     setSelectedProvince(provinceCode);
     setSelectedCity("");
     setSelectedBarangay("");
     setCities([]);
+    setBarangays([]);
 
     if (provinceCode) {
-      fetch(
-        `https://psgc.cloud/api/provinces/${provinceCode}/cities-municipalities`
-      )
-        .then((response) => response.json())
-        .then((data) => setCities(data || []))
-        .catch((error) => console.error("Error fetching cities:", error));
+      fetch(`https://psgc.cloud/api/provinces/${provinceCode}/cities-municipalities`)
+        .then((res) => res.json())
+        .then((data) => setCities(data))
+        .catch((err) => console.error("error getting cities:", err));
     }
   };
 
+  // when city is selected, get all its barangays
   const handleCityChange = (e) => {
     const cityCode = e.target.value;
     setSelectedCity(cityCode);
     setSelectedBarangay("");
+    setBarangays([]);
 
     if (cityCode) {
       fetch(`https://psgc.cloud/api/municipalities/${cityCode}/barangays`)
-        .then((response) => response.json())
-        .then((data) => setBarangays(data || []))
-        .catch((error) => console.error("Error fetching barangays:", error));
+        .then((res) => res.json())
+        .then((data) => setBarangays(data))
+        .catch((err) => console.error("error getting barangays:", err));
     }
   };
 
+  // this one shows the final full address after clicking confirm
   const handleConfirm = () => {
     if (
       !selectedRegion ||
@@ -88,27 +88,19 @@ function AssignmentFour() {
       !selectedBarangay ||
       !zipCode
     ) {
-      alert("Please fill out all required fields.");
+      alert("please complete all required fields.");
       return;
     }
 
-    const regionName =
-      regions.find((region) => region.code === selectedRegion)?.name ||
-      "Unknown Region";
-    const provinceName =
-      provinces.find((province) => province.code === selectedProvince)?.name ||
-      "Unknown Province";
-    const cityName =
-      cities.find((city) => city.code === selectedCity)?.name || "Unknown City";
-    const barangayName =
-      barangays.find((barangay) => barangay.code === selectedBarangay)?.name ||
-      "Unknown Barangay";
+    // find names of selected codes for display
+    const regionName = regions.find((r) => r.code === selectedRegion)?.name || "unknown region";
+    const provinceName = provinces.find((p) => p.code === selectedProvince)?.name || "unknown province";
+    const cityName = cities.find((c) => c.code === selectedCity)?.name || "unknown city";
+    const barangayName = barangays.find((b) => b.code === selectedBarangay)?.name || "unknown barangay";
 
+    // set the final result to be shown on screen
     setDisplayAddress(
-      `You live in   ${
-        otherAddress || ""
-      }, ${barangayName}, ${cityName}, ${provinceName}, ${regionName}, ${zipCode}, Philippines. 
-      `
+      `you live at ${otherAddress ? otherAddress + ", " : ""}${barangayName}, ${cityName}, ${provinceName}, ${regionName}, ${zipCode}, philippines.`
     );
   };
 
@@ -116,26 +108,22 @@ function AssignmentFour() {
     <div className="address-container">
       <div className="address-wrapper">
         <div className="title-container">
-          <h1>My Address</h1>
+          <h1>📍 My Address</h1>
           <p>
-            {" "}
-            Explore conditional rendering by fetching address details from an
-            external API. The data is displayed only when successfully
-            retrieved, showcasing how to handle loading states, API errors, and
-            dynamic UI updates effectively.
+            This one uses a public api so we can select our region, province,
+            city, and barangay. We also try conditional rendering here like showing
+            things only when data is ready.
           </p>
         </div>
-        {displayAddress && (
-          <div className="address-display">{displayAddress}</div>
-        )}
+
+        {/* this part only shows if the address is complete */}
+        {displayAddress && <div className="address-display">{displayAddress}</div>}
+
+        {/* region dropdown */}
         <div className="form-group">
           <label htmlFor="region">Region</label>
-          <select
-            id="region"
-            value={selectedRegion}
-            onChange={handleRegionChange}
-          >
-            <option value="">Select a Region</option>
+          <select id="region" value={selectedRegion} onChange={handleRegionChange}>
+            <option value="">Select Region</option>
             {regions.map((region) => (
               <option key={region.code} value={region.code}>
                 {region.name}
@@ -143,14 +131,12 @@ function AssignmentFour() {
             ))}
           </select>
         </div>
+
+        {/* province dropdown */}
         <div className="form-group">
           <label htmlFor="province">Province</label>
-          <select
-            id="province"
-            value={selectedProvince}
-            onChange={handleProvinceChange}
-          >
-            <option value="">Select a Province</option>
+          <select id="province" value={selectedProvince} onChange={handleProvinceChange}>
+            <option value="">Select Province</option>
             {provinces.map((province) => (
               <option key={province.code} value={province.code}>
                 {province.name}
@@ -158,10 +144,12 @@ function AssignmentFour() {
             ))}
           </select>
         </div>
+
+        {/* city/municipality dropdown */}
         <div className="form-group">
-          <label htmlFor="city">City/Municipality</label>
+          <label htmlFor="city">City / Municipality</label>
           <select id="city" value={selectedCity} onChange={handleCityChange}>
-            <option value="">Select a City</option>
+            <option value="">Select City</option>
             {cities.map((city) => (
               <option key={city.code} value={city.code}>
                 {city.name}
@@ -169,6 +157,8 @@ function AssignmentFour() {
             ))}
           </select>
         </div>
+
+        {/* barangay dropdown */}
         <div className="form-group">
           <label htmlFor="barangay">Barangay</label>
           <select
@@ -176,7 +166,7 @@ function AssignmentFour() {
             value={selectedBarangay}
             onChange={(e) => setSelectedBarangay(e.target.value)}
           >
-            <option value="">Select a Barangay</option>
+            <option value="">Select Barangay</option>
             {barangays.map((barangay) => (
               <option key={barangay.code} value={barangay.code}>
                 {barangay.name}
@@ -184,15 +174,20 @@ function AssignmentFour() {
             ))}
           </select>
         </div>
+
+        {/* zip code input */}
         <div className="form-group">
-          <label htmlFor="zipCode">ZIP Code</label>
+          <label htmlFor="zipCode">Zip Code</label>
           <input
             id="zipCode"
             type="text"
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
+            placeholder="e.g. 4000"
           />
         </div>
+
+        {/* other address input (optional) */}
         <div className="form-group">
           <label htmlFor="otherAddress">Other Address (Optional)</label>
           <input
@@ -200,9 +195,12 @@ function AssignmentFour() {
             type="text"
             value={otherAddress}
             onChange={(e) => setOtherAddress(e.target.value)}
+            placeholder="e.g. Blk 12 Lot 4"
           />
         </div>
-        <button onClick={handleConfirm}>Confirm</button>
+
+        {/* confirm button to show final output */}
+        <button onClick={handleConfirm}>Confirm Address</button>
       </div>
     </div>
   );
